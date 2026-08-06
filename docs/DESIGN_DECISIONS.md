@@ -33,7 +33,7 @@ the ORM and `packing`.
 milliseconds without spinning up a database, and portable — if this ever
 needed to run in a Celery worker, a serverless function, or a different web
 framework entirely, the core logic moves unchanged. It also makes the test
-suite fast enough that `pytest -v` over 54 tests runs in well under a
+suite fast enough that `pytest -v` over 77 tests runs in well under a
 second, which matters when you're iterating on the algorithm itself.
 
 **Trade-off:** one extra translation layer (`services.py`). Worth it.

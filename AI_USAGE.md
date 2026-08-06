@@ -136,7 +136,7 @@ where everything just works.
 
 Nothing in this repo is "trust me, the AI said it works":
 
-- **`pytest -v`** — 54 tests, all passing, real output captured in
+- **`pytest -v`** — 77 tests, all passing, real output captured in
   `TEST_OUTPUT.md` from an actual run, not written by hand.
 - **`ruff check .`** — clean.
 - **`python manage.py makemigrations --check --dry-run`** — no drift

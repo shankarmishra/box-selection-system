@@ -133,7 +133,7 @@ CDN — see [`api/visualizer.py`](api/visualizer.py).
 ## Tests
 
 ```bash
-pytest -v                    # 54 tests
+pytest -v                    # 77 tests
 pytest --cov=packing --cov=warehouse --cov=api --cov-report=term-missing
 ruff check .                 # lint
 python manage.py makemigrations --check --dry-run   # migration drift
@@ -147,6 +147,10 @@ Test layout:
   `test_multibox.py` — the pure `packing/` engine, no database required
 - `tests/test_models.py`, `test_services.py` — the ORM ↔ domain adapter
 - `tests/test_api.py` — the DRF endpoints end to end
+- `tests/test_web_views.py`, `test_visualizer.py` — the SVG packing pages
+- `tests/test_management_commands.py` — `seed_demo_data` and `recommend_box`
+
+Coverage sits at 99% (`packing/`, `warehouse/`, `api/`) — see `TEST_OUTPUT.md`.
 
 ## Project structure
 
@@ -155,7 +159,7 @@ packing/          pure domain: dimensions, fit engine, selection funnel, multi-b
 warehouse/         Django app: models, admin, services.py (the ORM<->domain seam), seed data
 api/               Django app: DRF views/serializers, SVG visualizer, web pages
 config/            Django project settings/urls
-tests/             pytest suite (54 tests)
+tests/             pytest suite (77 tests)
 docs/               ALGORITHM.md, DESIGN_DECISIONS.md
 ```
 

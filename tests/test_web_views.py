@@ -78,6 +78,33 @@ def test_visualize_renders_svgs_for_single_box(client, small_box, mug):
     assert body.count("<svg") >= 4  # isometric + top + front + side
 
 
+def test_visualize_shows_utilization_as_a_correct_percentage(client):
+    # Item volume is exactly 25% of the box's interior volume. This is a
+    # regression test: Django's `floatformat:0` filter does NOT multiply
+    # by 100, so `0.25|floatformat:0` renders "0", not "25" — silently
+    # showing every order as ~0% utilized regardless of the real value.
+    # The fix uses `{% widthratio %}` instead. See git history for the
+    # visual bug this caught (a screenshot showing "0%" next to a table
+    # row that correctly said 0.08 utilization).
+    Box.objects.create(
+        code="QUARTER", name="Quarter Box", inner_length_mm=20, inner_width_mm=10,
+        inner_height_mm=10, max_weight_g=5000, cost=Decimal("10.00"),
+    )
+    product = Product.objects.create(
+        sku="BLOCK", name="Block", length_mm=10, width_mm=10, height_mm=5, weight_g=100,
+    )
+    order = Order.objects.create(reference="ORD-WEB-UTIL")
+    OrderItem.objects.create(order=order, product=product, quantity=1)
+
+    response = client.get(f"/visualize/{order.id}/")
+
+    body = response.content.decode()
+    assert "25%" in body
+    # Guard against the specific regression, not against "100%" width=""
+    # SVG attributes elsewhere on the page (which legitimately contain "0%").
+    assert '<div class="stat">0%</div>' not in body
+
+
 def test_visualize_no_fit_order_renders_without_error(client, mug):
     # No boxes in the catalogue at all.
     order = Order.objects.create(reference="ORD-WEB-5")

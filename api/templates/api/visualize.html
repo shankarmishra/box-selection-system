@@ -7,7 +7,7 @@
   <div class="grid" style="grid-template-columns: repeat(4, minmax(140px,1fr));">
     <div><div class="stat">{{ recommendation.strategy }}</div><div class="stat-label">Strategy</div></div>
     <div><div class="stat">{% if recommendation.total_cost %}₹{{ recommendation.total_cost }}{% else %}—{% endif %}</div><div class="stat-label">Total cost</div></div>
-    <div><div class="stat">{% if recommendation.utilization %}{{ recommendation.utilization|floatformat:0 }}%{% else %}—{% endif %}</div><div class="stat-label">Utilization</div></div>
+    <div><div class="stat">{% if recommendation.utilization %}{% widthratio recommendation.utilization 1 100 %}%{% else %}—{% endif %}</div><div class="stat-label">Utilization</div></div>
     <div><div class="stat">{{ box_cards|length }}</div><div class="stat-label">Box(es) used</div></div>
   </div>
 </div>
@@ -25,7 +25,7 @@
     Box {{ card.box.code }} — {{ card.box.name }}
     <span style="color:var(--muted); font-weight:400; font-size:.85rem;">
       ({{ card.box.inner_length_mm }}×{{ card.box.inner_width_mm }}×{{ card.box.inner_height_mm }} mm,
-      ₹{{ card.box.cost }}{% if card.utilization %}, {{ card.utilization|floatformat:0 }}% utilized{% endif %})
+      ₹{{ card.box.cost }}{% if card.utilization %}, {% widthratio card.utilization 1 100 %}% utilized{% endif %})
     </span>
   </h3>
   <div class="grid" style="grid-template-columns: 1.4fr 1fr;">

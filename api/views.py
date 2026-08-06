@@ -87,7 +87,12 @@ class RecommendView(APIView):
         examples=[
             OpenApiExample(
                 "Mug + book",
-                value={"items": [{"sku": "MUG-001", "quantity": 1}, {"sku": "BOOK-001", "quantity": 1}]},
+                value={
+                    "items": [
+                        {"sku": "MUG-001", "quantity": 1},
+                        {"sku": "BOOK-001", "quantity": 1},
+                    ]
+                },
                 request_only=True,
             )
         ],

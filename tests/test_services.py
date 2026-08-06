@@ -106,7 +106,7 @@ def test_recommend_ignores_inactive_boxes(mug):
 def test_recommend_multi_box_when_no_single_box_fits(small_box, mug):
     # 10 mugs won't fit in one S box (volume-wise it might, but we pick
     # a case that clearly needs splitting): use weight to force it.
-    heavy_mug = Product.objects.create(
+    Product.objects.create(
         sku="HEAVY", name="Heavy Mug", length_mm=50, width_mm=50, height_mm=50, weight_g=1900,
     )
     items = cart_lines_to_domain_items([{"sku": "HEAVY", "quantity": 3}])

@@ -5,7 +5,10 @@ exclude = ["migrations", ".venv"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "C4", "UP"]
-ignore = ["B905"]
+# B905: zip(strict=...) not needed for our fixed-length coordinate tuples.
+# E741: l/w/h (length/width/height) are the domain's standard short names
+# throughout packing/ and warehouse/ — more readable than the alternative.
+ignore = ["B905", "E741"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"

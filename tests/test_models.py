@@ -10,19 +10,19 @@ pytestmark = pytest.mark.django_db
 
 
 def make_product(**overrides):
-    defaults = dict(
-        sku="TEST-001", name="Test Product", length_mm=10, width_mm=10, height_mm=10,
-        weight_g=100,
-    )
+    defaults = {
+        "sku": "TEST-001", "name": "Test Product", "length_mm": 10, "width_mm": 10, "height_mm": 10,
+        "weight_g": 100,
+    }
     defaults.update(overrides)
     return Product(**defaults)
 
 
 def make_box(**overrides):
-    defaults = dict(
-        code="TESTBOX", name="Test Box", inner_length_mm=100, inner_width_mm=100,
-        inner_height_mm=100, max_weight_g=5000, cost=Decimal("10.00"),
-    )
+    defaults = {
+        "code": "TESTBOX", "name": "Test Box", "inner_length_mm": 100, "inner_width_mm": 100,
+        "inner_height_mm": 100, "max_weight_g": 5000, "cost": Decimal("10.00"),
+    }
     defaults.update(overrides)
     return Box(**defaults)
 

@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.git/
+.github/
+.pytest_cache/
+.coverage
+htmlcov/
+db.sqlite3
+tests/
+docs/
+*.md
+NOTES_FOR_INTERVIEW.md

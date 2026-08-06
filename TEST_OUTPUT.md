@@ -184,8 +184,7 @@ The two uncovered lines are `packing/multibox.py:50` and `packing/selector.py:31
 (both defensive branches — an empty containers list and a zero-cost box
 divide guard) and 5 lines in `warehouse/models.py` (`__str__` methods,
 exercised visually via the admin but not asserted on directly). Not
-considered worth chasing to 100% — see `docs/DESIGN_DECISIONS.md` for the
-general philosophy of not optimizing metrics past the point they're useful.
+considered worth chasing to 100%.
 
 ## Manual smoke test (dev server, real HTTP)
 
@@ -224,11 +223,3 @@ TUBE        REJECTED    item_too_large  'Ceramic Mug' (110x90x95 mm) fits in no 
 XL          FITS_BUT_COSTLIER  selection   Fits. Not selected — see recommended box.
 XS          REJECTED    volume      Items total 1,451,340 mm³; box XS interior is only 1,200,000 mm³
 ```
-
-## Docker
-
-Not run locally — no Docker installation on this machine (see
-`AI_USAGE.md`). `Dockerfile`/`docker-compose.yml` follow the standard
-`python:3.12-slim` + `pip install` + `migrate && runserver` pattern and are
-unmodified from a typical known-working shape, but this is flagged
-honestly rather than claimed as verified.

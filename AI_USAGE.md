@@ -56,8 +56,9 @@ the `.docx`, then ask me three clarifying questions rather than guess:
   defend as my own design choice, which I can, because I understood and
   agreed with the reasoning before it was built, not after.
 - The free-space guillotine packing algorithm and its non-overlap proof
-  (see `docs/ALGORITHM.md`) — I worked through the proof by hand against
-  the actual code before accepting it, rather than trusting the comment.
+  (see README → "How the algorithm works") — I worked through the proof
+  by hand against the actual code before accepting it, rather than
+  trusting the comment.
 - The 4-stage funnel (weight → volume → item-too-large → geometry) and the
   cost-then-utilization-then-code tie-break.
 - The isometric SVG visualizer approach (hand-rolled projection math, no
@@ -126,7 +127,7 @@ The reason, once traced through: the mug is placed first (larger volume),
 and no orientation of it leaves 198mm free along any axis of the remaining
 space — but the book's longest edge is 198mm. This is a real limitation of
 the greedy, non-backtracking packing heuristic (documented honestly in
-`docs/ALGORITHM.md` → "Known limitations"), not a bug I asked to be hidden.
+README → "Known limitations"), not a bug I asked to be hidden.
 I chose to keep this in the demo data and document it rather than swap in
 an example that made the algorithm look flawless — it's a more honest and
 more interesting thing to be able to explain in an interview than a case

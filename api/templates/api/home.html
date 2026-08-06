@@ -1,0 +1,27 @@
+{% extends "api/base.html" %}
+{% block title %}Box Selection System — Orders{% endblock %}
+{% block content %}
+<div class="panel">
+  <h2 style="margin-top:0;">Orders</h2>
+  <p style="color:var(--muted)">Click an order to see its packing plan visualized, or use
+    <code>python manage.py recommend_box --order &lt;reference&gt;</code> for a terminal view.
+    The full API is documented at <a href="/api/docs/">/api/docs/</a>.</p>
+  <table>
+    <thead><tr><th>Reference</th><th>Status</th><th>Created</th><th></th></tr></thead>
+    <tbody>
+    {% for order in orders %}
+      <tr>
+        <td class="mono">{{ order.reference }}</td>
+        <td><span class="badge other">{{ order.get_status_display }}</span></td>
+        <td style="color:var(--muted)">{{ order.created_at|date:"Y-m-d H:i" }}</td>
+        <td><a href="{% url 'visualize' order.id %}">View packing plan →</a></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4" style="color:var(--muted)">
+        No orders yet — run <code>python manage.py seed_demo_data</code>.
+      </td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

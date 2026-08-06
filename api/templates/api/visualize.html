@@ -1,0 +1,90 @@
+{% extends "api/base.html" %}
+{% block title %}{{ order.reference }} — Packing Plan{% endblock %}
+{% block content %}
+
+<div class="panel">
+  <h2 style="margin-top:0;">Order {{ order.reference }}</h2>
+  <div class="grid" style="grid-template-columns: repeat(4, minmax(140px,1fr));">
+    <div><div class="stat">{{ recommendation.strategy }}</div><div class="stat-label">Strategy</div></div>
+    <div><div class="stat">{% if recommendation.total_cost %}₹{{ recommendation.total_cost }}{% else %}—{% endif %}</div><div class="stat-label">Total cost</div></div>
+    <div><div class="stat">{% if recommendation.utilization %}{{ recommendation.utilization|floatformat:0 }}%{% else %}—{% endif %}</div><div class="stat-label">Utilization</div></div>
+    <div><div class="stat">{{ box_cards|length }}</div><div class="stat-label">Box(es) used</div></div>
+  </div>
+</div>
+
+{% if recommendation.strategy == "NO_FIT" %}
+<div class="panel">
+  <p style="color:var(--bad)">No box in the active catalogue — alone or combined — can hold this order.
+    See the trace below for why every box was rejected.</p>
+</div>
+{% endif %}
+
+{% for card in box_cards %}
+<div class="panel">
+  <h3 style="margin-top:0;">
+    Box {{ card.box.code }} — {{ card.box.name }}
+    <span style="color:var(--muted); font-weight:400; font-size:.85rem;">
+      ({{ card.box.inner_length_mm }}×{{ card.box.inner_width_mm }}×{{ card.box.inner_height_mm }} mm,
+      ₹{{ card.box.cost }}{% if card.utilization %}, {{ card.utilization|floatformat:0 }}% utilized{% endif %})
+    </span>
+  </h3>
+  <div class="grid" style="grid-template-columns: 1.4fr 1fr;">
+    <div>
+      <div style="color:var(--muted); font-size:.8rem; margin-bottom:.25rem;">Isometric view</div>
+      <div class="svg-wrap">{{ card.isometric_svg|safe }}</div>
+    </div>
+    <div class="grid" style="grid-template-columns: 1fr; gap:.75rem;">
+      <div>
+        <div style="color:var(--muted); font-size:.8rem; margin-bottom:.25rem;">Top (X×Y)</div>
+        <div class="svg-wrap">{{ card.top_svg|safe }}</div>
+      </div>
+      <div>
+        <div style="color:var(--muted); font-size:.8rem; margin-bottom:.25rem;">Front (X×Z)</div>
+        <div class="svg-wrap">{{ card.front_svg|safe }}</div>
+      </div>
+      <div>
+        <div style="color:var(--muted); font-size:.8rem; margin-bottom:.25rem;">Side (Y×Z)</div>
+        <div class="svg-wrap">{{ card.side_svg|safe }}</div>
+      </div>
+    </div>
+  </div>
+  <table style="margin-top:1rem;">
+    <thead><tr><th>SKU</th><th>Name</th><th>Position (x,y,z)</th><th>Placed dims (l×w×h)</th></tr></thead>
+    <tbody>
+    {% for item in card.items %}
+      <tr>
+        <td class="mono">{{ item.sku }}</td>
+        <td>{{ item.name }}</td>
+        <td class="mono">{{ item.position.0 }}, {{ item.position.1 }}, {{ item.position.2 }}</td>
+        <td class="mono">{{ item.dims.0 }}×{{ item.dims.1 }}×{{ item.dims.2 }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+
+<div class="panel">
+  <h3 style="margin-top:0;">Explainability trace — every box in the catalogue</h3>
+  <table>
+    <thead><tr><th>Box</th><th>Verdict</th><th>Stage</th><th>Reason</th><th>Cost</th><th>Utilization</th></tr></thead>
+    <tbody>
+    {% for v in recommendation.trace %}
+      <tr>
+        <td class="mono">{{ v.box }}</td>
+        <td>
+          {% if v.verdict == "SELECTED" %}<span class="badge selected">{{ v.verdict }}</span>
+          {% elif v.verdict == "REJECTED" %}<span class="badge rejected">{{ v.verdict }}</span>
+          {% else %}<span class="badge other">{{ v.verdict }}</span>{% endif %}
+        </td>
+        <td class="mono" style="color:var(--muted);">{{ v.stage }}</td>
+        <td>{{ v.reason }}</td>
+        <td class="mono">{% if v.cost %}₹{{ v.cost }}{% else %}—{% endif %}</td>
+        <td class="mono">{% if v.utilization %}{{ v.utilization|floatformat:2 }}{% else %}—{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

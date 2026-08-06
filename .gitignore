@@ -9,5 +9,6 @@ htmlcov/
 .DS_Store
 .env
 
-# Private interview prep — not part of the submission
+# Private interview prep / drafts — not part of the submission
 NOTES_FOR_INTERVIEW.md
+SUBMISSION_EMAIL_DRAFT.txt

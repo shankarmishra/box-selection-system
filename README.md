@@ -206,7 +206,7 @@ CDN — see [`api/visualizer.py`](api/visualizer.py).
 ## Tests
 
 ```bash
-pytest -v                    # 77 tests
+pytest -v                    # 78 tests
 pytest --cov=packing --cov=warehouse --cov=api --cov-report=term-missing
 ruff check .                 # lint
 python manage.py makemigrations --check --dry-run   # migration drift
@@ -231,7 +231,7 @@ packing/           pure domain: dimensions, fit engine, selection funnel, multi-
 warehouse/          Django app: models, admin, services.py (the ORM<->domain seam), seed data
 api/                Django app: DRF views/serializers, SVG visualizer, web pages
 config/             Django project settings/urls
-tests/              pytest suite (77 tests)
+tests/              pytest suite (78 tests)
 ```
 
 ## Known limitations
